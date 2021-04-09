@@ -45,8 +45,8 @@ func (u *user) setMem(value float64) {
 
 func main() {
 	fmt.Println("--------------------\n     Memory Usage\n--------------------")
-	fmt.Println("--------------------\nPresione ENTER para obter o seu uso atual de RAM, ou,")
-	fmt.Println("digite \"all\" para obter o todos os usos da sessão.\n--------------------")
+	fmt.Println("--------------------\nLeave empty to get your self memory usage")
+	fmt.Println("or type \"all\" to retrieve all user's memory usage\n--------------------")
 
 	fmt.Print(">")
 	var args string
@@ -66,7 +66,7 @@ func main() {
 	removeCSV()
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("\nPressione ENTER para sair.")
+	fmt.Println("\n Press ENTER to exit")
 	a, _ := reader.ReadString('\n')
 	_ = a
 }
@@ -96,13 +96,13 @@ func genUsers(q int) []user {
 	err := cmd.Run()
 
 	if err != nil {
-		log.Fatalln("Erro na importação de usuários", err)
+		log.Fatalln("Error importing user info:\n", err)
 	}
 
 	file, err := os.Open("users.txt")
 
 	if err != nil {
-		log.Fatalln("Erro ao abrir arquivo de usuarios", err)
+		log.Fatalln("Error opening user files: \n", err)
 	}
 
 	defer file.Close()
@@ -138,13 +138,13 @@ func printUsers(users []user) {
 	sort.Sort(userSorted(users))
 
 	for _, user := range users {
-		fmt.Printf("\n----------\n>Usuário: %s | Sessão autal: %s | ID: %s\n", user.username, user.sessionname, user.sessionid)
-		fmt.Printf(">Uso atual de memória: %.3f\n----------", user.memusage)
+		fmt.Printf("\n----------\n>User: %s | Session: %s | ID: %s\n", user.username, user.sessionname, user.sessionid)
+		fmt.Printf(">Memory: %.3f\n----------", user.memusage)
 	}
 
 	if len(users) > 1 {
-		fmt.Printf("\n----------\n>Média de uso: %.3f GB\n", (total / float64(len(users))))
-		fmt.Printf(">TOTAL GERAL: %.3f GB\n----------", (total / 1024))
+		fmt.Printf("\n----------\n>Mem. average: %.3f GB\n", (total / float64(len(users))))
+		fmt.Printf(">Mem. total amount usage: %.3f GB\n----------", (total / 1024))
 	}
 }
 
@@ -154,7 +154,7 @@ func getAllTasks() {
 	err := cmd.Run()
 
 	if err != nil {
-		log.Fatalln("Erro ao importar tarefas.", err)
+		log.Fatalln("Error importing tasks:\n", err)
 	}
 }
 
@@ -162,7 +162,7 @@ func calcMem(iduser string) float64 {
 	file, err := os.Open("tasks.csv")
 
 	if err != nil {
-		log.Fatalln("Erro ao ler arquivo de tarefas.", err)
+		log.Fatalln("Error on read tasks file: \n", err)
 	}
 
 	defer file.Close()
@@ -180,7 +180,7 @@ func calcMem(iduser string) float64 {
 				break
 			}
 			if err != nil {
-				log.Fatalln("Erro no pré calculo.", err)
+				log.Fatalln("Error reading line:\n", err)
 			}
 			if iduser == record[3] {
 				s := strings.ReplaceAll(record[4], " ", "")
@@ -191,7 +191,7 @@ func calcMem(iduser string) float64 {
 				}
 
 				if err != nil {
-					log.Fatalln("Erro no cálculo da memória", err)
+					log.Fatalln("Error calculating memory amount:\n", err)
 				}
 			}
 
@@ -209,7 +209,7 @@ func removeCSV() {
 	err := cmd.Run()
 
 	if err != nil {
-		log.Fatal("Erro ao remover arquivo de Tasks.\n", err)
+		log.Fatal("Error removing tasks file: \n", err)
 	}
 }
 
@@ -218,6 +218,6 @@ func removeUser() {
 	err := cmd.Run()
 
 	if err != nil {
-		log.Fatal("Erro ao remover arquivo de Usuários.\n", err)
+		log.Fatal("Error removingo user file: \n", err)
 	}
 }
