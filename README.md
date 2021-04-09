@@ -18,3 +18,5 @@ This is my first attempt of create a simple program in Go language. In this proj
 - Translate the console info for English (currently in PT-BR).
 - Chage the direct parse from String (used to calculate the memory) and transfer to a struct.
 - To save the results in to a database to do some analytics over the data.
+- Modify the file usage to a `byte stream` to get data.
+- Run on linux distributions.
